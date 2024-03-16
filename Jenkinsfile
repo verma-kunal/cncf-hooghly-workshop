@@ -18,6 +18,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script{
+                    sh 'pip3 install -r requirements.txt'
                     sh "python3 manage.py test -v=3 > test_reports/${commitHash}.txt"
 
                 }

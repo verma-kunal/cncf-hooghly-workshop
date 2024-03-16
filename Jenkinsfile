@@ -18,7 +18,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script{
-                    sh "sudo docker build -t ${registry}:${commitHash} ."
+                    sh "docker build -t ${registry}:${commitHash} ."
 
                 }
             }
@@ -26,7 +26,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script{
-                    sh "sudo docker run -dp 8000:8000 ${registry}:${commitHash}"
+                    sh "docker run -dp 8000:8000 ${registry}:${commitHash}"
 
                 }
             }

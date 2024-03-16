@@ -45,7 +45,6 @@ pipeline {
         stage('CD: Run Docker Container') {
             steps {
                 script{
-                    sh "docker stop $(docker ps -q)"
                     sh "docker run -dp 8000:8000 ${registry}:${commitHash}"
 
                 }

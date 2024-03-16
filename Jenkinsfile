@@ -18,7 +18,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script{
-                    sh "python manage.py test -v=3 > test_reports/${commitHash}.txt"
+                    sh "python3 manage.py test -v=3 > test_reports/${commitHash}.txt"
 
                 }
             }
@@ -31,20 +31,20 @@ pipeline {
                 }
             }
         }
-        stage('Run Docker Container') {
-            steps {
-                script{
-                    sh "docker run -dp 8000:8000 ${registry}:${commitHash}"
-
-                }
-            }
-        }
         stage('Push to DockerHub') {
             steps {
                 script{
                     docker.withRegistry( 'https://index.docker.io/v1/', registryCredential) {
                         sh "docker push ${registry}:${commitHash}"
                     }
+
+                }
+            }
+        }
+        stage('Run Docker Container') {
+            steps {
+                script{
+                    sh "docker run -dp 8000:8000 ${registry}:${commitHash}"
 
                 }
             }

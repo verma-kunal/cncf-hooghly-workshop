@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { docker { image 'python:3.12.1-alpine3.19' } }
 
     options{
         buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '5'))
@@ -15,6 +15,14 @@ pipeline {
 
     stages {
 
+        stage('Run Tests') {
+            steps {
+                script{
+                    sh "python manage.py test -v=3 > test_reports/${commitHash}.txt"
+
+                }
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 script{

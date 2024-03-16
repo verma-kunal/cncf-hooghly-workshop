@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker { image 'python:3.12.1-alpine3.19' } }
+    agent any
 
     options{
         buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '5'))

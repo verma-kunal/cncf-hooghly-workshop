@@ -15,16 +15,16 @@ pipeline {
 
     stages {
 
-        stage('Run Tests') {
+        stage('CI: Run Tests') {
             steps {
                 script{
                     sh 'pip3 install -r requirements.txt'
-                    sh "python3 manage.py test -v=3 > test_reports/${commitHash}.txt"
+                    sh "python3 manage.py test -v=3"
 
                 }
             }
         }
-        stage('Build Docker Image') {
+        stage('CI: Build Docker Image') {
             steps {
                 script{
                     sh "docker build -t ${registry}:${commitHash} ."
@@ -32,7 +32,7 @@ pipeline {
                 }
             }
         }
-        stage('Push to DockerHub') {
+        stage('CI: Push to DockerHub') {
             steps {
                 script{
                     docker.withRegistry( 'https://index.docker.io/v1/', registryCredential) {
@@ -42,9 +42,10 @@ pipeline {
                 }
             }
         }
-        stage('Run Docker Container') {
+        stage('CD: Run Docker Container') {
             steps {
                 script{
+                    sh "docker stop $(docker ps -q)"
                     sh "docker run -dp 8000:8000 ${registry}:${commitHash}"
 
                 }

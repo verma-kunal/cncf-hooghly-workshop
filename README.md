@@ -1,38 +1,52 @@
-# django-todo
-A simple todo app built with django
+# Demo - Simple CI/CD Pipeline With Jenkins
 
-![todo App](https://raw.githubusercontent.com/shreys7/django-todo/develop/staticfiles/todoApp.png)
-### Setup
-To get this repository, run the following command inside your git enabled terminal
-```bash
-$ git clone https://github.com/shreys7/django-todo.git
-```
-You will need django to be installed in you computer to run this app. Head over to https://www.djangoproject.com/download/ for the download guide
+### Prerequisites
 
-Once you have downloaded django, go to the cloned repo directory and run the following command
+- An app (I'm using a [Django ToDo List](https://github.com/shreys7/django-todo))
+- [Docker](https://docs.docker.com/engine/install/) installed
+- [Jenkins](https://www.jenkins.io/doc/book/installing/) installed
 
-```bash
-$ python manage.py makemigrations
-```
 
-This will create all the migrations file (database migrations) required to run this App.
+#### 1. Local Setup
 
-Now, to apply this migrations run the following command
-```bash
-$ python manage.py migrate
+- Follow the instructions mentioned [here](https://github.com/shreys7/django-todo).
+
+#### 2. Run Tests
+
+```python
+
+python manage.py test -v=3
+
 ```
 
-One last step and then our todo App will be live. We need to create an admin user to run this App. On the terminal, type the following command and provide username, password and email for the admin user
-```bash
-$ python manage.py createsuperuser
-```
-
-That was pretty simple, right? Now let's make the App live. We just need to start the server now and then we can start using our simple todo App. Start the server by following command
+#### 3. Run Docker Container (locally)
 
 ```bash
-$ python manage.py runserver
+
+docker build -t django-todo:latest .
+
+docker run -dp 8000:8000 django-todo:latest
+
 ```
 
-Once the server is hosted, head over to http://127.0.0.1:8000/todos for the App.
+#### 4. Setup a Jenkins Pipeline
 
-Cheers and Happy Coding :)
+- Detailed steps given [here](https://kverma.hashnode.dev/aws-cloud-deployment-automation-with-jenkins-ci#heading-step-8-setting-up-a-jenkins-pipeline)
+
+#### 5. Jenkinsfile 
+
+- Detailed breakdown of Jenkinsfile given [here](https://kverma.hashnode.dev/aws-cloud-deployment-automation-with-jenkins-ci#heading-step-9-analysis-of-jenkinsfile)
+
+#### 6. Pipeline Execution using Jenkins
+
+1. Make a code change and commit to git.
+2. Trigger the Jenkins pipeline
+3. Check docker container status
+4. Check Docker Hub status
+5. Access the app (with the new changes)
+
+## Resources
+
+Refer the [resources](https://docs.google.com/document/d/13382lghUZxsO8ZFNbgT1Iuv4ndUd7cxeEKtZsLENamc/edit?usp=sharing) to learn more!
+
+
